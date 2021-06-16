@@ -7,6 +7,13 @@
     "build": "astro build"
   },
   "devDependencies": {
-    "astro": "^0.12.9"
+    "astro": "^0.12.10"
+  },
+  "dependencies": {
+    "@nebula.js/sn-bar-chart": "^0.8.24",
+    "@nebula.js/sn-table": "^1.0.3",
+    "@nebula.js/stardust": "^1.2.0",
+    "enigma.js": "^2.7.3",
+    "react-use-promise": "^0.3.1"
   }
 }

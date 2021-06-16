@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import {
-    connect,
+    qlikConnect,
     chart,
     getAppFields,
     getMasterItems,
@@ -17,7 +17,7 @@
   };
 
   onMount(async () => {
-    qStruc.app = await connect();
+    qStruc.app = await qlikConnect();
     let [nebbie, allFields, masterMeasures] = await Promise.all([
       chart(qStruc.app),
       getAppFields(qStruc.app),

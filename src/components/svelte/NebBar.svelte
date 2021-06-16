@@ -4,32 +4,17 @@
 
   export let qStruc;
 
-  $: ({ nebbie, app } = qStruc);
+  $: ({ nebbie } = qStruc);
 
   let element;
-  let selectedDimension;
-  let currentNebbie;
-  let selectedMeasure = null;
 
   onMount(async () => {
-    currentNebbie = await nebbie.render({
+    await nebbie.render({
       element: element,
       type: "bar",
       fields: ["Name", "=sum(Weight)"],
     });
   });
-
-  const selectChange = async () => {
-    await tick();
-    console.log(selectedMeasure);
-    await createObject(
-      app,
-      currentNebbie.id,
-      selectedDimension,
-      selectedMeasure
-    );
-    //await addMeasure(app, currentNebbie.id, selectedMeasure);
-  };
 </script>
 
 <div class="chart-container">

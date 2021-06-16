@@ -1,7 +1,6 @@
-import schema from "enigma.js/schemas/12.67.2.json";
-import enigma from "enigma.js";
 import table from "@nebula.js/sn-table";
 import nebula from "@nebula.js/stardust";
+import connect from "./connect";
 // const module = import("@nebula.js/sn-bar-chart");
 // const bar = module.default;
 //import bar from "@nebula.js/sn-bar-chart";
@@ -16,16 +15,112 @@ const generateId = () => {
   return value.join("");
 };
 
-export const connect = async () => {
-  const session = enigma.create({
-    schema,
-    url: `ws://localhost:4848/app/engineData`,
-    createSocket: (url) => new WebSocket(url),
+// export const connect = async () => {
+//   const session = connect({
+//     schema,
+//     url: `ws://localhost:4848/app/engineData`,
+//     createSocket: (url) => new WebSocket(url),
+//   });
+
+//   const global = await session.open();
+//   // @ts-ignore
+//   return await global.openDoc("Cars.qvf");
+// };
+
+// Connect to Cloud
+export const qlikConnect = async () => {
+  const app = await connect({
+    url: "https://oaw5nbmep0bhq2j.eu.qlikcloud.com",
+    webIntegrationId: "B0HZmvmOt3kMjQaTF6OavG8QloKH3ktW",
+    appId: "961d1d90-fe99-4035-86be-c6d58ee2efa8",
   });
 
-  const global = await session.open();
-  // @ts-ignore
-  return await global.openDoc("Cars.qvf");
+  return app;
+};
+
+const getRandomColor = () => {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const chartTheme = () => {
+  return {
+    type: "light",
+    color: getRandomColor(),
+    backgroundColor: getRandomColor(),
+    title: {
+      main: {
+        color: getRandomColor(),
+        fontSize: "18px",
+        fontFamily: "@font-family",
+      },
+      subTitle: {
+        color: getRandomColor(),
+        fontSize: "30px",
+        fontFamily: "@font-family",
+      },
+      footer: {
+        color: getRandomColor(),
+        fontSize: "@TextSize",
+        fontFamily: "@font-family",
+        backgroundColor: getRandomColor(),
+      },
+    },
+    axis: {
+      title: {
+        color: getRandomColor(),
+        fontSize: "18px",
+        fontFamily: "@font-family",
+      },
+      label: {
+        name: {
+          color: getRandomColor(),
+          fontSize: "18px",
+          fontFamily: "@font-family",
+        },
+      },
+      line: {
+        major: {
+          color: getRandomColor(),
+        },
+        minor: {
+          color: getRandomColor(),
+        },
+      },
+    },
+    legend: {
+      title: {
+        color: getRandomColor(),
+        fontSize: "@TextSize",
+        fontFamily: "@font-family",
+      },
+      label: {
+        color: getRandomColor(),
+        fontSize: "@TextSize",
+        fontFamily: "@font-family",
+      },
+    },
+    label: {
+      value: {
+        color: getRandomColor(),
+        fontSize: "8px",
+        fontFamily: "@font-family",
+      },
+    },
+    outOfRange: {
+      color: getRandomColor(),
+    },
+    dataColors: {
+      primaryColor: getRandomColor(),
+      othersColor: "#f8e08e",
+      errorColor: "#CC4000",
+      nullColor: "#ffffff",
+    },
+  };
 };
 
 export const chart = async (app) => {
@@ -33,7 +128,21 @@ export const chart = async (app) => {
   let bar = module.default;
 
   const nebbie = nebula.embed(app, {
-    context: { theme: "light" },
+    themes: [
+      {
+        id: "custom",
+        load: () => Promise.resolve(chartTheme()),
+      },
+    ],
+    context: {
+      theme: "custom",
+      constraints: {
+        active: false,
+        passive: false,
+        select: false,
+      },
+      language: "en-US",
+    },
     types: [
       {
         name: "table",
