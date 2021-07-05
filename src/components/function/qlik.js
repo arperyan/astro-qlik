@@ -1,6 +1,7 @@
 import table from "@nebula.js/sn-table";
 import nebula from "@nebula.js/stardust";
 import connect from "./connect";
+import scatterplot from "@nebula.js/sn-scatter-plot/dist/sn-scatter-plot";
 // const module = import("@nebula.js/sn-bar-chart");
 // const bar = module.default;
 //import bar from "@nebula.js/sn-bar-chart";
@@ -151,6 +152,10 @@ export const chart = async (app) => {
       {
         name: "bar",
         load: () => Promise.resolve(bar),
+      },
+      {
+        name: "scatterplot",
+        load: () => Promise.resolve(scatterplot),
       },
     ],
   });
