@@ -8,6 +8,7 @@
   } from "../function/qlik";
   import NebTable from "./NebTable.svelte";
   import NebBar from "./NebBar.svelte";
+  import NebScatter from "./Scatter.svelte";
 
   let qStruc = {
     app: "",
@@ -35,6 +36,7 @@
     <div class="container">
       <NebBar {qStruc} />
       <NebTable {qStruc} />
+      <NebScatter {qStruc} />
     </div>
   {/if}
 </main>

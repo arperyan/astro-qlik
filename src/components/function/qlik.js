@@ -1,7 +1,7 @@
 import table from "@nebula.js/sn-table";
 import nebula from "@nebula.js/stardust";
 import connect from "./connect";
-import scatterplot from "@nebula.js/sn-scatter-plot/dist/sn-scatter-plot";
+
 // const module = import("@nebula.js/sn-bar-chart");
 // const bar = module.default;
 //import bar from "@nebula.js/sn-bar-chart";
@@ -127,6 +127,8 @@ const chartTheme = () => {
 export const chart = async (app) => {
   const module = await import("@nebula.js/sn-bar-chart");
   let bar = module.default;
+  const module2 = await import("@nebula.js/sn-scatter-plot");
+  let scatterplot = module2.default;
 
   const nebbie = nebula.embed(app, {
     themes: [
